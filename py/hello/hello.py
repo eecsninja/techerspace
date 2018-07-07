@@ -2,9 +2,11 @@ import sys
 import ctypes
 from sdl2 import *
 
+import common.hello_world as hello_world;
+
 def main():
     SDL_Init(SDL_INIT_VIDEO)
-    window = SDL_CreateWindow(b"Hello World",
+    window = SDL_CreateWindow(hello_world.HELLO_WORLD_STR,
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                               592, 460, SDL_WINDOW_SHOWN)
     windowsurface = SDL_GetWindowSurface(window)
