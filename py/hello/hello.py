@@ -10,7 +10,7 @@ def main():
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                               592, 460, SDL_WINDOW_SHOWN)
     windowsurface = SDL_GetWindowSurface(window)
-    SDL_FillRect(windowsurface, None, 0)
+    SDL_FillRect(windowsurface, None, SDL_MapRGB(windowsurface.contents.format),0,255,0)
 
     image = SDL_LoadBMP(b"pysdl.bmp")
     SDL_BlitSurface(image, None, windowsurface, None)
