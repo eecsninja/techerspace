@@ -1,6 +1,7 @@
 import sys
 import ctypes
 import common.hello_world as hello_world
+import common.color as color
 from sdl2 import *
 
 
@@ -8,16 +9,18 @@ def main():
     SDL_Init(SDL_INIT_VIDEO)
     window = SDL_CreateWindow(hello_world.HELLO_WORLD_STR,
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              512, 256, SDL_WINDOW_SHOWN)
+                              256, 512, SDL_WINDOW_SHOWN)
     windowsurface = SDL_GetWindowSurface(window)
-    test_rect = SDL_Rect(25, 25, 50, 50)
-    SDL_FillRect(windowsurface, test_rect, SDL_MapRGB(windowsurface.contents.format, 0, 255, 0))
+    RED = color.rgb_to_color_value(windowsurface, 255, 0, 0)
+    GREEN = color.rgb_to_color_value(windowsurface, 0, 255, 0)
+    BLUE = color.rgb_to_color_value(windowsurface, 0, 0, 255)
 
-    #image = SDL_LoadBMP(b"pysdl.bmp")
-    #SDL_BlitSurface(image, None, windowsurface, None)
+    test_rect = SDL_Rect(0, 480, 32, 32)
+    SDL_FillRect(windowsurface, test_rect, GREEN)
+    SDL_FillRect(windowsurface, SDL_Rect(0, 0, 32, 32), RED)
+    SDL_FillRect(windowsurface, SDL_Rect(0, 32, 32, 32), BLUE)
 
     SDL_UpdateWindowSurface(window)
-    #SDL_FreeSurface(image)
 
     running = True
     event = SDL_Event()
