@@ -1,5 +1,6 @@
 import sys
 import ctypes
+import common.hello_world as hello_world
 from sdl2 import *
 
 

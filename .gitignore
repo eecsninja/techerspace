@@ -2,6 +2,7 @@
 venv/  
 sdl_tutorials/
 .idea/
+py/common/__pycache__/
 
 
 # Compiled source #
