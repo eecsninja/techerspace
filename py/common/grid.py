@@ -21,7 +21,7 @@ from sdl2 import SDL_Rect
 
 class TetrisGrid:
     # constructor to initialize the grid
-    def __init__(self, num_blocks_w, num_blocks_h, num_block_pixels):
+    def __init__(self, num_blocks_h, num_blocks_w, num_block_pixels):
         self.num_blocks_w = num_blocks_w
         self.num_blocks_h = num_blocks_h
         self.num_block_pixels = num_block_pixels
@@ -54,8 +54,8 @@ class TetrisGrid:
 
     # return an SDL_Rect object corresponding to the specified window block
     def get_sdl_rect(self, row_ii, col_jj):
-        x_coord = self.num_block_pixels * row_ii
-        y_coord = self.num_block_pixels * col_jj
+        x_coord = self.num_block_pixels * col_jj
+        y_coord = self.num_block_pixels * row_ii
         return SDL_Rect(x_coord, y_coord, self.num_block_pixels, self.num_block_pixels)
 
     # get the window width in pixels
