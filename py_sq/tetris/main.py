@@ -41,6 +41,7 @@ def main():
   current_piece = piece.GetRandomPiece()
   piece_sprite = SDL_CreateRGBSurface(0, BLOCK_WIDTH * 4, BLOCK_HEIGHT * 4, 32,
                                       0, 0, 0, 0)
+  SDL_SetColorKey(piece_sprite, 1, 0)  # Black == transparent.
   piece_dest = SDL_Rect()
 
   running = True
