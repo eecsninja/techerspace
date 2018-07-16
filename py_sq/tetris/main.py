@@ -208,6 +208,9 @@ def main():
           current_piece.AddToGrid(game_grid, piece_x, piece_y)
           current_piece = None
 
+    # Check for full rows that need to be cleared.
+    game_grid.RemoveFullRows()
+
     # Color the grid background.
     GRID_GREY_VALUE = color.RGBToColorValue(screen, 0x20, 0x20, 0x20)
     SDL_FillRect(grid_surface, None, GRID_GREY_VALUE)

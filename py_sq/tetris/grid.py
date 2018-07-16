@@ -7,11 +7,11 @@ class Grid:
     self.width = width
     self.height = height
 
-    self.array = [0] * width * height
+    self.array = [[0] * width for row in [[]] * height]
 
   def SetValue(self, x, y, value):
     # TODO: Check bounds.
-    self.array[x + self.width * y] = value
+    self.array[y][x] = value
 
   def GetValue(self, x, y, border=None):
     # Add imaginary border (or lack thereof) if caller specifies boundary
@@ -20,7 +20,28 @@ class Grid:
       if border != None:
         return 1 if border == True else 0
 
-    return self.array[x + self.width * y]
+    return self.array[y][x]
+
+  # Removes all full rows. Returns the number of full rows removed.
+  def RemoveFullRows(self):
+    num_rows_removed = 0
+
+    new_array = [[0] * self.width] * self.height
+    new_array_y = self.height - 1
+    for y in xrange(self.height - 1, -1, -1):
+      num_blocks_in_row = self.GetNumBlocksInRow(y)
+      if num_blocks_in_row == self.width:
+        num_rows_removed += 1
+        continue
+
+      # Copy over non-full rows.
+      new_array[new_array_y] = self.array[y]
+      new_array_y -= 1
+
+    self.array = new_array
+
+  def GetNumBlocksInRow(self, y):
+    return sum([1 if block else 0 for block in self.array[y]])
 
 
 class GridRenderer:
