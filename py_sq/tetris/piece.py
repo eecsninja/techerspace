@@ -27,6 +27,26 @@ class Piece:
   def Copy(self):
     return Piece(self.grid.width, self.grid.height, self.color, self.values)
 
+  # Returns true/false based on whether there is a block collision between the
+  # piece and the existing grid blocks, for a given offset.
+  def CollidesWithGridBlocks(self, test_grid, piece_x, piece_y, border=False):
+    for offset_y in xrange(self.grid.height):
+      for offset_x in xrange(self.grid.width):
+        piece_value = self.grid.GetValue(offset_x, offset_y)
+        grid_value = test_grid.GetValue(piece_x + offset_x, piece_y + offset_y,
+                                        border)
+        if piece_value != 0 and grid_value != 0:
+          return True
+  
+    return False
+  
+  # Returns true/false based on whether the piece collides with the border.
+  def CollidesWithGridBorder(self, test_grid, piece_x, piece_y):
+    # Create an empty grid.
+    empty_grid = grid.Grid(test_grid.width, test_grid.height)
+  
+    return self.CollidesWithGridBlocks(empty_grid, piece_x, piece_y, True)
+
 
 # These are basically templates for each piece type. Use Copy() to create an
 # individual instance of a piece that can be mutated.

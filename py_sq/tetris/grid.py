@@ -13,8 +13,13 @@ class Grid:
     # TODO: Check bounds.
     self.array[x + self.width * y] = value
 
-  def GetValue(self, x, y):
-    # TODO: Check bounds.
+  def GetValue(self, x, y, border=None):
+    # Add imaginary border (or lack thereof) if caller specifies boundary
+    # checking.
+    if x < 0 or x >= self.width or y < 0 or y >= self.height:
+      if border != None:
+        return 1 if border == True else 0
+
     return self.array[x + self.width * y]
 
 

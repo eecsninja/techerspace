@@ -67,6 +67,12 @@ def main():
       game_grid.SetValue(0, x, x)
     grid_renderer.DrawToSurface(game_grid, screen)
 
+    # Test for collisions.
+    if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
+      print "Grid collision"
+    if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_y):
+      print "Border collision"
+
     # Draw pieces.
     grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
 
