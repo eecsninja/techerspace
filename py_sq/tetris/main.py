@@ -30,18 +30,25 @@ def main():
   GRID_PALETTE = palette.GetPalette()
   grid_renderer = grid.GridRenderer(BLOCK_WIDTH, BLOCK_HEIGHT, GRID_PALETTE)
 
-  # Draw the grid.
-  for x in xrange(15):
-    game_grid.SetValue(0, x, x)
-  grid_renderer.DrawToSurface(game_grid, screen)
+  # For testing.
+  offset = 0
 
   running = True
   event = SDL_Event()
   while running:
+    # Handle user input.
     while SDL_PollEvent(ctypes.byref(event)) != 0:
       if event.type == SDL_QUIT:
         running = False
         break
+      if event.type == SDL_KEYDOWN:
+        offset += 1
+
+    # Draw the grid.
+    for x in xrange(15):
+      game_grid.SetValue(0, x, (x + offset) % len(GRID_PALETTE))
+    grid_renderer.DrawToSurface(game_grid, screen)
+
     SDL_UpdateWindowSurface(window)
 
   SDL_DestroyWindow(window)
