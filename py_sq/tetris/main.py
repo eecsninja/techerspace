@@ -54,7 +54,7 @@ def main():
         break
       if event.type == SDL_KEYDOWN:
         if event.key.keysym.sym == SDLK_UP:
-          piece_y -= 1
+          current_piece.Rotate()
         elif event.key.keysym.sym == SDLK_DOWN:
           piece_y += 1
         elif event.key.keysym.sym == SDLK_LEFT:
