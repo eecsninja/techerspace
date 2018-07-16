@@ -151,12 +151,6 @@ def main():
       if collided == False:
         piece_y = piece_move_y
 
-    # Test for collisions.
-    if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
-      print "Grid collision"
-    if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_y):
-      print "Border collision"
-
     # Color the grid background.
     GRID_GREY_VALUE = color.RGBToColorValue(screen, 0x20, 0x20, 0x20)
     SDL_FillRect(grid_surface, None, GRID_GREY_VALUE)
