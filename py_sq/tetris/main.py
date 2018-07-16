@@ -138,10 +138,18 @@ def main():
     # Update falling movement.
     fall_counter += 1
     if fall_counter >= FALL_STEP:
-      piece_move_y += 1
+      collided = False
+      piece_move_y = piece_y + 1
       fall_counter = 0
-      # TODO: Check for collision due to falling movement.
-      piece_y = piece_move_y
+
+      # Check for collisions at new location due to falling.
+      if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_move_y):
+        collided = True
+      if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_move_y):
+        collided = True
+
+      if collided == False:
+        piece_y = piece_move_y
 
     # Test for collisions.
     if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
