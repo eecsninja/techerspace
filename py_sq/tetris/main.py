@@ -22,6 +22,8 @@ BLOCK_HEIGHT = 32
 # Location of next piece display.
 NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
 NEXT_PIECE_Y = BLOCK_HEIGHT * 4
+# Number of game cycles per automated falling step.
+FALL_STEP = 40
 
 def main():
   window = SDL_CreateWindow(b"Tetris",
@@ -36,6 +38,9 @@ def main():
 
   GRID_PALETTE = palette.GetPalette()
   grid_renderer = grid.GridRenderer(BLOCK_WIDTH, BLOCK_HEIGHT, GRID_PALETTE)
+
+  # Counter for automated falling.
+  fall_counter = 0
 
   # For testing.
   piece_x = 0
@@ -70,6 +75,12 @@ def main():
           piece_x -= 1
         elif event.key.keysym.sym == SDLK_RIGHT:
           piece_x += 1
+
+    # Update game state.
+    fall_counter += 1
+    if fall_counter >= FALL_STEP:
+      piece_y += 1
+      fall_counter = 0
 
     # Draw the grid.
     for x in xrange(15):
