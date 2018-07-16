@@ -37,7 +37,8 @@ def main():
   # For testing.
   piece_x = 0
   piece_y = 0
-  pieces = [piece.SQUARE, piece.BAR]
+
+  current_piece = piece.GetRandomPiece()
   piece_sprite = SDL_CreateRGBSurface(0, BLOCK_WIDTH * 4, BLOCK_HEIGHT * 4, 32,
                                       0, 0, 0, 0)
   piece_dest = SDL_Rect()
@@ -66,12 +67,11 @@ def main():
     grid_renderer.DrawToSurface(game_grid, screen)
 
     # Draw pieces.
-    for p in pieces:
-      grid_renderer.DrawToSurface(p.grid, piece_sprite)
+    grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
 
-      piece_dest.x = piece_x * BLOCK_WIDTH
-      piece_dest.y = piece_y * BLOCK_HEIGHT
-      SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
+    piece_dest.x = piece_x * BLOCK_WIDTH
+    piece_dest.y = piece_y * BLOCK_HEIGHT
+    SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
 
     SDL_UpdateWindowSurface(window)
 
