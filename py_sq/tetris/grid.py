@@ -22,6 +22,14 @@ class Grid:
 
     return self.array[y][x]
 
+  # Adds the blocks from another grid to this grid at a particular location.
+  def AddBlocks(self, other_grid, other_x, other_y):
+    for offset_y in xrange(other_grid.height):
+      for offset_x in xrange(other_grid.width):
+        other_value = other_grid.GetValue(offset_x, offset_y)
+        if other_value != 0:
+          self.SetValue(other_x + offset_x, other_y + offset_y, other_value)
+
   # Removes all full rows. Returns the number of full rows removed.
   def RemoveFullRows(self):
     num_rows_removed = 0

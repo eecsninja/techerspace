@@ -163,7 +163,7 @@ def main():
         piece_x, piece_y = piece_move_x, piece_move_y
         current_piece = rotated_piece
         if offset_y < 0:
-          current_piece.AddToGrid(game_grid, piece_x, piece_y)
+          game_grid.AddBlocks(current_piece.grid, piece_x, piece_y)
           current_piece = None
 
     # Only update user movement if the piece was not added to the grid yet.
@@ -184,7 +184,7 @@ def main():
       # If there was collision due to the user moving the block down, add the
       # piece to the grid.
       elif user_collided == True and user_move_key == SDLK_DOWN:
-        current_piece.AddToGrid(game_grid, piece_x, piece_y)
+        game_grid.AddBlocks(current_piece.grid, piece_x, piece_y)
         current_piece = None
 
     # Only update falling movement if the piece was not added to the grid yet.
@@ -205,7 +205,7 @@ def main():
         if fall_collided == False:
           piece_y = piece_move_y
         else:
-          current_piece.AddToGrid(game_grid, piece_x, piece_y)
+          game_grid.AddBlocks(current_piece.grid, piece_x, piece_y)
           current_piece = None
 
     # Check for full rows that need to be cleared.
