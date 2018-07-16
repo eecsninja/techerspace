@@ -90,7 +90,10 @@ def main():
       current_piece = next_piece
       next_piece = piece.GetRandomPiece()
       piece_x = PIECE_SPAWN_X
-      piece_y = PIECE_SPAWN_Y
+      # Sometimes the piece needs to be shifted vertically to spawn at the very
+      # top of the grid, due to its internal grid having some extra space for
+      # rotation.
+      piece_y = PIECE_SPAWN_Y + current_piece.y_offset
 
     # Location of piece for next move.
     piece_move_x = piece_x

@@ -5,11 +5,12 @@ import grid
 import palette
 
 class Piece:
-  def __init__(self, width, height, color, values, rotation=0):
+  def __init__(self, width, height, color, values, rotation=0, y_offset=0):
     self.grid = grid.Grid(width, height)
     self.color = color
     self.values = values
     self.rotation = rotation
+    self.y_offset = y_offset
     # Values is an array of arrays of width x height containing 0/1. Each inner
     # array is one rotation of the piece.
     self.FillGrid(values[self.rotation])
@@ -26,7 +27,7 @@ class Piece:
 
   def Copy(self):
     return Piece(self.grid.width, self.grid.height, self.color, self.values,
-                 self.rotation)
+                 self.rotation, self.y_offset)
 
   # Returns true/false based on whether there is a block collision between the
   # piece and the existing grid blocks, for a given offset.
@@ -74,7 +75,7 @@ BAR = Piece(4, 4, palette.GREEN,
                 0, 1, 0, 0,
                 0, 1, 0, 0,
               ],
-            ])
+            ], y_offset=-1)
 T = Piece(3, 3, palette.YELLOW,
           [
             [
