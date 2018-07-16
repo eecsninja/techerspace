@@ -6,6 +6,7 @@ from sdl2 import *
 # Local imports
 import grid
 import palette
+import piece
 
 # Screen defs.
 SCREEN_WIDTH = 960
@@ -32,6 +33,7 @@ def main():
 
   # For testing.
   offset = 0
+  pieces = [piece.SQUARE, piece.BAR]
 
   running = True
   event = SDL_Event()
@@ -48,6 +50,10 @@ def main():
     for x in xrange(15):
       game_grid.SetValue(0, x, (x + offset) % len(GRID_PALETTE))
     grid_renderer.DrawToSurface(game_grid, screen)
+
+    # Draw pieces.
+    for p in pieces:
+      grid_renderer.DrawToSurface(p.grid, screen)
 
     SDL_UpdateWindowSurface(window)
 
