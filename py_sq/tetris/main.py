@@ -130,40 +130,62 @@ def main():
 
     # Update game state.
 
+    # Sometimes a rotation results in a collision but a minor offset will
+    # resolve the collision.
     if rotated_piece:
       rotate_collided = False
-      # Check for validity of rotation.
-      if rotated_piece.CollidesWithGridBlocks(game_grid,
-                                              piece_move_x, piece_move_y):
-        rotate_collided = True
-      if rotated_piece.CollidesWithGridBorder(game_grid,
-                                              piece_move_x, piece_move_y):
-        rotate_collided = True
+      ROTATION_OFFSETS = [(0,0), (-1,0), (1,0), (0,-1), (0,-1)]
+      for offset_x, offset_y in ROTATION_OFFSETS:
+        rotate_collided = False
+        # Check for validity of rotation.
+        if rotated_piece.CollidesWithGridBlocks(game_grid,
+                                                piece_move_x + offset_x,
+                                                piece_move_y + offset_y):
+          rotate_collided = True
+        if rotated_piece.CollidesWithGridBorder(game_grid,
+                                                piece_move_x + offset_x,
+                                                piece_move_y + offset_y):
+          rotate_collided = True
 
+        if rotate_collided == True:
+          # Try again with a different rotation offset.
+          continue
+
+        # If there was no rotation, we are good, proceed as usual.
+        if rotate_collided == False:
+          piece_move_x += offset_x
+          piece_move_y += offset_y
+          break
+
+      # Not quite done yet -- if we had to shift the block upward to resolve the
+      # collision, that should count as the block having settled.
       if rotate_collided == False:
+        piece_x, piece_y = piece_move_x, piece_move_y
         current_piece = rotated_piece
-        # TODO: Handle this more intelligently. Shift the block around if there
-        # was a collision during rotation. If the block cannot be trivially
-        # moved around when rotating, then it counts as a collision.
+        if offset_y < 0:
+          current_piece.AddToGrid(game_grid, piece_x, piece_y)
+          current_piece = None
 
-    user_collided = False
-    if user_moved == True:
-      # Check for validity of user movement.
-      if current_piece.CollidesWithGridBlocks(game_grid,
-                                              piece_move_x, piece_move_y):
-        user_collided = True
-      if current_piece.CollidesWithGridBorder(game_grid,
-                                              piece_move_x, piece_move_y):
-        user_collided = True
+    # Only update user movement if the piece was not added to the grid yet.
+    if current_piece:
+      user_collided = False
+      if user_moved == True:
+        # Check for validity of user movement.
+        if current_piece.CollidesWithGridBlocks(game_grid,
+                                                piece_move_x, piece_move_y):
+          user_collided = True
+        if current_piece.CollidesWithGridBorder(game_grid,
+                                                piece_move_x, piece_move_y):
+          user_collided = True
 
-    # If there was no collision due to user movement, update the piece location.
-    if user_collided == False:
-      piece_x, piece_y = piece_move_x, piece_move_y
-    # If there was collision due to the user moving the block down, add the
-    # piece to the grid.
-    elif user_collided == True and user_move_key == SDLK_DOWN:
-      current_piece.AddToGrid(game_grid, piece_x, piece_y)
-      current_piece = None
+      # If there was no collision due to user movement, update the piece location.
+      if user_collided == False:
+        piece_x, piece_y = piece_move_x, piece_move_y
+      # If there was collision due to the user moving the block down, add the
+      # piece to the grid.
+      elif user_collided == True and user_move_key == SDLK_DOWN:
+        current_piece.AddToGrid(game_grid, piece_x, piece_y)
+        current_piece = None
 
     # Only update falling movement if the piece was not added to the grid yet.
     if current_piece:
