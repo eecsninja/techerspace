@@ -27,8 +27,8 @@ BLOCK_WIDTH = 32
 BLOCK_HEIGHT = 32
 
 # Each new piece spawns here.
-PIECE_SPAWN_X = GRID_X + 4
-PIECE_SPAWN_Y = GRID_Y
+PIECE_SPAWN_X = 4
+PIECE_SPAWN_Y = 0
 
 # Location of next piece display.
 NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
@@ -163,8 +163,8 @@ def main():
     SDL_FillRect(piece_sprite, None, 0)
     grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
     piece_dest = SDL_Rect()
-    piece_dest.x = piece_x * BLOCK_WIDTH
-    piece_dest.y = piece_y * BLOCK_HEIGHT
+    piece_dest.x = (piece_x + GRID_X) * BLOCK_WIDTH
+    piece_dest.y = (piece_y + GRID_Y) * BLOCK_HEIGHT
     SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
 
     # Draw next piece.
