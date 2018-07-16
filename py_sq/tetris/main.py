@@ -188,8 +188,6 @@ def main():
     SDL_FillRect(grid_surface, None, GRID_GREY_VALUE)
 
     # Draw the grid itself.
-    for x in xrange(15):
-      game_grid.SetValue(0, x, x)
     grid_renderer.DrawToSurface(game_grid, grid_surface)
     SDL_BlitSurface(grid_surface, None, screen, grid_rect)
 
