@@ -3,12 +3,20 @@ import sys
 
 from sdl2 import *
 
+# Local imports
+import grid
 from common.color import *
 
 # Screen defs.
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
+# Game defs.
+GRID_WIDTH = 10
+GRID_HEIGHT = 20
+
+# Game data.
+game_grid = grid.Grid(GRID_WIDTH, GRID_HEIGHT)
 
 def main():
   window = SDL_CreateWindow(b"Tetris",
