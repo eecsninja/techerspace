@@ -110,7 +110,11 @@ def main():
       piece_y += 1
       fall_counter = 0
 
-    # Draw the grid.
+    # Color the grid background.
+    GRID_GREY_VALUE = color.RGBToColorValue(screen, 0x20, 0x20, 0x20)
+    SDL_FillRect(grid_surface, None, GRID_GREY_VALUE)
+
+    # Draw the grid itself.
     for x in xrange(15):
       game_grid.SetValue(0, x, x)
     grid_renderer.DrawToSurface(game_grid, grid_surface)

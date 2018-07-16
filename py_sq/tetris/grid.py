@@ -41,5 +41,8 @@ class GridRenderer:
       rect.y = y * self.block_height
       for x in xrange(grid.width):
         rect.x = x * self.block_width
-        color = self.palette[grid.GetValue(x, y)]
+        value = grid.GetValue(x, y)
+        if value == 0:
+          continue
+        color = self.palette[value]
         SDL_FillRect(surface, rect, SDLColorToColorValue(surface, color))
