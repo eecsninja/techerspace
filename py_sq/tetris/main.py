@@ -5,6 +5,7 @@ from sdl2 import *
 from sdl2.ext import sprite
 
 # Local imports
+import common.color as color
 import grid
 import palette
 import piece
@@ -12,6 +13,10 @@ import piece
 # Screen dimensions in pixels.
 SCREEN_WIDTH = 960
 SCREEN_HEIGHT = 720
+
+# Grid location offset on screen in pixels.
+GRID_X = 32
+GRID_Y = 32
 
 # Grid dimensions in blocks.
 GRID_WIDTH = 10
@@ -45,6 +50,14 @@ def main():
 
   GRID_PALETTE = palette.GetPalette()
   grid_renderer = grid.GridRenderer(BLOCK_WIDTH, BLOCK_HEIGHT, GRID_PALETTE)
+
+  # For rendering grid area and blocks.
+  grid_surface = SDL_CreateRGBSurface(0, BLOCK_WIDTH * GRID_WIDTH,
+                                      BLOCK_HEIGHT * GRID_HEIGHT, 32,
+                                      0, 0, 0, 0)
+  grid_rect = SDL_Rect()
+  grid_rect.x = GRID_X
+  grid_rect.y = GRID_Y
 
   # Counter for automated falling.
   fall_counter = 0
@@ -100,7 +113,8 @@ def main():
     # Draw the grid.
     for x in xrange(15):
       game_grid.SetValue(0, x, x)
-    grid_renderer.DrawToSurface(game_grid, screen)
+    grid_renderer.DrawToSurface(game_grid, grid_surface)
+    SDL_BlitSurface(grid_surface, None, screen, grid_rect)
 
     # Test for collisions.
     if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
