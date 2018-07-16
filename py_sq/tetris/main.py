@@ -35,7 +35,7 @@ NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
 NEXT_PIECE_Y = BLOCK_HEIGHT * 4
 
 # Number of game cycles per automated falling step.
-FALL_STEP = 40
+FALL_STEP = 60
 
 def main():
   window = SDL_CreateWindow(b"Tetris",
