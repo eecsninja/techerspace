@@ -96,6 +96,9 @@ def main():
     piece_move_x = piece_x
     piece_move_y = piece_y
 
+    # For checking the validity of a rotation.
+    rotated_piece = None
+
     # Handle user input.
     user_moved = False
     user_move_key = None
@@ -105,7 +108,10 @@ def main():
         break
       if event.type == SDL_KEYDOWN:
         if event.key.keysym.sym == SDLK_UP:
-          current_piece.Rotate()
+          rotated_piece = current_piece.Copy()
+          rotated_piece.Rotate()
+          # For simplicity, do not allow rotation and movement on the same step.
+          break
         elif event.key.keysym.sym == SDLK_DOWN:
           piece_move_y += 1
           user_moved = True
@@ -120,6 +126,22 @@ def main():
           user_move_key = SDLK_RIGHT
 
     # Update game state.
+
+    if rotated_piece:
+      rotate_collided = False
+      # Check for validity of rotation.
+      if rotated_piece.CollidesWithGridBlocks(game_grid,
+                                              piece_move_x, piece_move_y):
+        rotate_collided = True
+      if rotated_piece.CollidesWithGridBorder(game_grid,
+                                              piece_move_x, piece_move_y):
+        rotate_collided = True
+
+      if rotate_collided == False:
+        current_piece = rotated_piece
+        # TODO: Handle this more intelligently. Shift the block around if there
+        # was a collision during rotation. If the block cannot be trivially
+        # moved around when rotating, then it counts as a collision.
 
     user_collided = False
     if user_moved == True:
