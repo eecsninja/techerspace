@@ -5,14 +5,14 @@ import grid
 import palette
 
 class Piece:
-  def __init__(self, width, height, color, values):
+  def __init__(self, width, height, color, values, rotation=0):
     self.grid = grid.Grid(width, height)
     self.color = color
     self.values = values
-    self.rotation = 0
+    self.rotation = rotation
     # Values is an array of arrays of width x height containing 0/1. Each inner
     # array is one rotation of the piece.
-    self.FillGrid(values[0])
+    self.FillGrid(values[self.rotation])
 
   def FillGrid(self, values):
     for y in xrange(self.grid.height):
@@ -25,7 +25,8 @@ class Piece:
     self.FillGrid(self.values[self.rotation])
 
   def Copy(self):
-    return Piece(self.grid.width, self.grid.height, self.color, self.values)
+    return Piece(self.grid.width, self.grid.height, self.color, self.values,
+                 self.rotation)
 
   # Returns true/false based on whether there is a block collision between the
   # piece and the existing grid blocks, for a given offset.
