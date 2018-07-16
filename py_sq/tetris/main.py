@@ -55,11 +55,11 @@ def main():
   piece_sprite = SDL_CreateRGBSurface(0, BLOCK_WIDTH * 4, BLOCK_HEIGHT * 4, 32,
                                       0, 0, 0, 0)
   SDL_SetColorKey(piece_sprite, 1, 0)  # Black == transparent.
-  piece_dest = SDL_Rect()
+
+  # Location to draw the next piece.
   next_piece_dest = SDL_Rect()
   next_piece_dest.x = NEXT_PIECE_X
   next_piece_dest.y = NEXT_PIECE_Y
-  print next_piece_dest
 
   running = True
   event = SDL_Event()
@@ -107,6 +107,7 @@ def main():
     # Draw current piece.
     SDL_FillRect(piece_sprite, None, 0)
     grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
+    piece_dest = SDL_Rect()
     piece_dest.x = piece_x * BLOCK_WIDTH
     piece_dest.y = piece_y * BLOCK_HEIGHT
     SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
