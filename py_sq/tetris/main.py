@@ -134,22 +134,32 @@ def main():
     # If there was no collision due to user movement, update the piece location.
     if user_collided == False:
       piece_x, piece_y = piece_move_x, piece_move_y
+    # If there was collision due to the user moving the block down, add the
+    # piece to the grid.
+    elif user_collided == True and user_move_key == SDLK_DOWN:
+      current_piece.AddToGrid(game_grid, piece_x, piece_y)
+      current_piece = None
 
-    # Update falling movement.
-    fall_counter += 1
-    if fall_counter >= FALL_STEP:
-      fall_collided = False
-      piece_move_y = piece_y + 1
-      fall_counter = 0
+    # Only update falling movement if the piece was not added to the grid yet.
+    if current_piece:
+      # Update falling movement.
+      fall_counter += 1
+      if fall_counter >= FALL_STEP:
+        fall_collided = False
+        piece_move_y = piece_y + 1
+        fall_counter = 0
 
-      # Check for collisions at new location due to falling.
-      if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_move_y):
-        fall_collided = True
-      if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_move_y):
-        fall_collided = True
+        # Check for collisions at new location due to falling.
+        if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_move_y):
+          fall_collided = True
+        if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_move_y):
+          fall_collided = True
 
-      if fall_collided == False:
-        piece_y = piece_move_y
+        if fall_collided == False:
+          piece_y = piece_move_y
+        else:
+          current_piece.AddToGrid(game_grid, piece_x, piece_y)
+          current_piece = None
 
     # Color the grid background.
     GRID_GREY_VALUE = color.RGBToColorValue(screen, 0x20, 0x20, 0x20)
@@ -162,12 +172,13 @@ def main():
     SDL_BlitSurface(grid_surface, None, screen, grid_rect)
 
     # Draw current piece.
-    SDL_FillRect(piece_sprite, None, 0)
-    grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
-    piece_dest = SDL_Rect()
-    piece_dest.x = (piece_x + GRID_X) * BLOCK_WIDTH
-    piece_dest.y = (piece_y + GRID_Y) * BLOCK_HEIGHT
-    SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
+    if current_piece:
+      SDL_FillRect(piece_sprite, None, 0)
+      grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
+      piece_dest = SDL_Rect()
+      piece_dest.x = (piece_x + GRID_X) * BLOCK_WIDTH
+      piece_dest.y = (piece_y + GRID_Y) * BLOCK_HEIGHT
+      SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
 
     # Draw next piece.
     SDL_FillRect(screen, next_piece_dest, 0)

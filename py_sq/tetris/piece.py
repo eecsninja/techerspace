@@ -47,6 +47,15 @@ class Piece:
   
     return self.CollidesWithGridBlocks(empty_grid, piece_x, piece_y, True)
 
+  # Adds the blocks of the piece to a grid at a particular location.
+  def AddToGrid(self, dest_grid, piece_x, piece_y):
+    for offset_y in xrange(self.grid.height):
+      for offset_x in xrange(self.grid.width):
+        piece_value = self.grid.GetValue(offset_x, offset_y)
+        if piece_value != 0:
+          dest_grid.SetValue(piece_x + offset_x, piece_y + offset_y,
+                             piece_value)
+
 
 # These are basically templates for each piece type. Use Copy() to create an
 # individual instance of a piece that can be mutated.
