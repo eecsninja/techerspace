@@ -1,5 +1,17 @@
 from sdl2 import SDL_Color
 
+BLACK = 0
+GREY = 1
+LIGHT_GREY = 2
+WHITE = 3
+RED = 4
+GREEN = 5
+BLUE = 6
+YELLOW = 7
+CYAN = 8
+MAGENTA = 9
+# TODO: Define more.
+
 def GetPalette():
   return {
     # Grayscale colors.
