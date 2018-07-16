@@ -62,7 +62,7 @@ def main():
   # Counter for automated falling.
   fall_counter = 0
 
-  # Spawn location.
+  # Current piece location.
   piece_x = 0
   piece_y = 0
 
@@ -92,7 +92,13 @@ def main():
       piece_x = PIECE_SPAWN_X
       piece_y = PIECE_SPAWN_Y
 
+    # Location of piece for next move.
+    piece_move_x = piece_x
+    piece_move_y = piece_y
+
     # Handle user input.
+    user_moved = False
+    user_move_key = None
     while SDL_PollEvent(ctypes.byref(event)) != 0:
       if event.type == SDL_QUIT:
         running = False
@@ -101,17 +107,41 @@ def main():
         if event.key.keysym.sym == SDLK_UP:
           current_piece.Rotate()
         elif event.key.keysym.sym == SDLK_DOWN:
-          piece_y += 1
+          piece_move_y += 1
+          user_moved = True
+          user_move_key = SDLK_DOWN
         elif event.key.keysym.sym == SDLK_LEFT:
-          piece_x -= 1
+          piece_move_x -= 1
+          user_moved = True
+          user_move_key = SDLK_LEFT
         elif event.key.keysym.sym == SDLK_RIGHT:
-          piece_x += 1
+          piece_move_x += 1
+          user_moved = True
+          user_move_key = SDLK_RIGHT
 
     # Update game state.
+
+    collided = False
+    if user_moved == True:
+      # Check for validity of user movement.
+      if current_piece.CollidesWithGridBlocks(game_grid,
+                                              piece_move_x, piece_move_y):
+        collided = True
+      if current_piece.CollidesWithGridBorder(game_grid,
+                                              piece_move_x, piece_move_y):
+        collided = True
+
+    # If there was no collision due to user movement, update the piece location.
+    if collided == False:
+      piece_x, piece_y = piece_move_x, piece_move_y
+
+    # Update falling movement.
     fall_counter += 1
     if fall_counter >= FALL_STEP:
-      piece_y += 1
+      piece_move_y += 1
       fall_counter = 0
+      # TODO: Check for collision due to falling movement.
+      piece_y = piece_move_y
 
     # Test for collisions.
     if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
