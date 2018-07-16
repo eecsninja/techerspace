@@ -19,6 +19,9 @@ GRID_HEIGHT = 20
 # Dimensions of each block in pixels.
 BLOCK_WIDTH = 32
 BLOCK_HEIGHT = 32
+# Location of next piece display.
+NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
+NEXT_PIECE_Y = BLOCK_HEIGHT * 4
 
 def main():
   window = SDL_CreateWindow(b"Tetris",
@@ -39,10 +42,16 @@ def main():
   piece_y = 0
 
   current_piece = piece.GetRandomPiece()
+  next_piece = piece.GetRandomPiece()
+  # For rendering a piece onto a surface.
   piece_sprite = SDL_CreateRGBSurface(0, BLOCK_WIDTH * 4, BLOCK_HEIGHT * 4, 32,
                                       0, 0, 0, 0)
   SDL_SetColorKey(piece_sprite, 1, 0)  # Black == transparent.
   piece_dest = SDL_Rect()
+  next_piece_dest = SDL_Rect()
+  next_piece_dest.x = NEXT_PIECE_X
+  next_piece_dest.y = NEXT_PIECE_Y
+  print next_piece_dest
 
   running = True
   event = SDL_Event()
@@ -73,12 +82,16 @@ def main():
     if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_y):
       print "Border collision"
 
-    # Draw pieces.
+    # Draw current piece.
     grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
-
     piece_dest.x = piece_x * BLOCK_WIDTH
     piece_dest.y = piece_y * BLOCK_HEIGHT
     SDL_BlitSurface(piece_sprite, None, screen, piece_dest)
+
+    # Draw next piece.
+    SDL_FillRect(screen, next_piece_dest, 0)
+    grid_renderer.DrawToSurface(next_piece.grid, piece_sprite)
+    SDL_BlitSurface(piece_sprite, None, screen, next_piece_dest)
 
     SDL_UpdateWindowSurface(window)
 
