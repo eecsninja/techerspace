@@ -68,15 +68,18 @@ def main():
 
   current_piece = None
   next_piece = piece.GetRandomPiece()
-  # For rendering a piece onto a surface.
-  piece_sprite = SDL_CreateRGBSurface(0, BLOCK_WIDTH * 4, BLOCK_HEIGHT * 4, 32,
-                                      0, 0, 0, 0)
-  SDL_SetColorKey(piece_sprite, 1, 0)  # Black == transparent.
 
   # Location to draw the next piece.
   next_piece_dest = SDL_Rect()
   next_piece_dest.x = NEXT_PIECE_X
   next_piece_dest.y = NEXT_PIECE_Y
+  next_piece_dest.w = BLOCK_WIDTH * 4
+  next_piece_dest.h = BLOCK_HEIGHT * 4
+
+  # For rendering a piece onto a surface.
+  piece_sprite = SDL_CreateRGBSurface(0, next_piece_dest.w, next_piece_dest.h,
+                                      32, 0, 0, 0, 0)
+  SDL_SetColorKey(piece_sprite, 1, 0)  # Black == transparent.
 
   running = True
   event = SDL_Event()
