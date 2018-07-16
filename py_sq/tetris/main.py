@@ -139,6 +139,7 @@ def main():
 
     # Draw next piece.
     SDL_FillRect(screen, next_piece_dest, 0)
+    SDL_FillRect(piece_sprite, None, 0)
     grid_renderer.DrawToSurface(next_piece.grid, piece_sprite)
     SDL_BlitSurface(piece_sprite, None, screen, next_piece_dest)
 
