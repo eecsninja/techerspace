@@ -14,9 +14,9 @@ import piece
 SCREEN_WIDTH = 960
 SCREEN_HEIGHT = 720
 
-# Grid location offset on screen in pixels.
-GRID_X = 32
-GRID_Y = 32
+# Grid location offset on screen in blocks.
+GRID_X = 1
+GRID_Y = 1
 
 # Grid dimensions in blocks.
 GRID_WIDTH = 10
@@ -27,8 +27,8 @@ BLOCK_WIDTH = 32
 BLOCK_HEIGHT = 32
 
 # Each new piece spawns here.
-PIECE_SPAWN_X = 4
-PIECE_SPAWN_Y = 0
+PIECE_SPAWN_X = GRID_X + 4
+PIECE_SPAWN_Y = GRID_Y
 
 # Location of next piece display.
 NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
@@ -56,8 +56,8 @@ def main():
                                       BLOCK_HEIGHT * GRID_HEIGHT, 32,
                                       0, 0, 0, 0)
   grid_rect = SDL_Rect()
-  grid_rect.x = GRID_X
-  grid_rect.y = GRID_Y
+  grid_rect.x = GRID_X * BLOCK_WIDTH
+  grid_rect.y = GRID_Y * BLOCK_HEIGHT
 
   # Counter for automated falling.
   fall_counter = 0
