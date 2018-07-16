@@ -121,34 +121,34 @@ def main():
 
     # Update game state.
 
-    collided = False
+    user_collided = False
     if user_moved == True:
       # Check for validity of user movement.
       if current_piece.CollidesWithGridBlocks(game_grid,
                                               piece_move_x, piece_move_y):
-        collided = True
+        user_collided = True
       if current_piece.CollidesWithGridBorder(game_grid,
                                               piece_move_x, piece_move_y):
-        collided = True
+        user_collided = True
 
     # If there was no collision due to user movement, update the piece location.
-    if collided == False:
+    if user_collided == False:
       piece_x, piece_y = piece_move_x, piece_move_y
 
     # Update falling movement.
     fall_counter += 1
     if fall_counter >= FALL_STEP:
-      collided = False
+      fall_collided = False
       piece_move_y = piece_y + 1
       fall_counter = 0
 
       # Check for collisions at new location due to falling.
       if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_move_y):
-        collided = True
+        fall_collided = True
       if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_move_y):
-        collided = True
+        fall_collided = True
 
-      if collided == False:
+      if fall_collided == False:
         piece_y = piece_move_y
 
     # Color the grid background.
