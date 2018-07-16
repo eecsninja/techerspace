@@ -9,22 +9,26 @@ import grid
 import palette
 import piece
 
-# Screen defs.
+# Screen dimensions in pixels.
 SCREEN_WIDTH = 960
 SCREEN_HEIGHT = 720
 
-# Game defs.
+# Grid dimensions in blocks.
 GRID_WIDTH = 10
 GRID_HEIGHT = 20
+
 # Dimensions of each block in pixels.
 BLOCK_WIDTH = 32
 BLOCK_HEIGHT = 32
+
 # Each new piece spawns here.
 PIECE_SPAWN_X = 4
 PIECE_SPAWN_Y = 0
+
 # Location of next piece display.
 NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
 NEXT_PIECE_Y = BLOCK_HEIGHT * 4
+
 # Number of game cycles per automated falling step.
 FALL_STEP = 40
 
