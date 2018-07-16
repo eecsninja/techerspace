@@ -2,6 +2,8 @@
 venv/  
 .idea/
 
+# Don't want precompiled code... do we?
+*.pyc
 
 # Compiled source #
 ###################
