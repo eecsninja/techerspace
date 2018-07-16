@@ -8,8 +8,8 @@ import grid
 from common.color import *
 
 # Screen defs.
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 960
+SCREEN_HEIGHT = 720
 
 # Game defs.
 GRID_WIDTH = 10
