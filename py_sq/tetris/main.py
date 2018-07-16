@@ -113,6 +113,12 @@ def main():
       piece_y += 1
       fall_counter = 0
 
+    # Test for collisions.
+    if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
+      print "Grid collision"
+    if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_y):
+      print "Border collision"
+
     # Color the grid background.
     GRID_GREY_VALUE = color.RGBToColorValue(screen, 0x20, 0x20, 0x20)
     SDL_FillRect(grid_surface, None, GRID_GREY_VALUE)
@@ -122,12 +128,6 @@ def main():
       game_grid.SetValue(0, x, x)
     grid_renderer.DrawToSurface(game_grid, grid_surface)
     SDL_BlitSurface(grid_surface, None, screen, grid_rect)
-
-    # Test for collisions.
-    if current_piece.CollidesWithGridBlocks(game_grid, piece_x, piece_y):
-      print "Grid collision"
-    if current_piece.CollidesWithGridBorder(game_grid, piece_x, piece_y):
-      print "Border collision"
 
     # Draw current piece.
     SDL_FillRect(piece_sprite, None, 0)
