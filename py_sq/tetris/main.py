@@ -5,7 +5,7 @@ from sdl2 import *
 
 # Local imports
 import grid
-from common.color import *
+import palette
 
 # Screen defs.
 SCREEN_WIDTH = 960
@@ -27,29 +27,7 @@ def main():
   # Game data.
   game_grid = grid.Grid(GRID_WIDTH, GRID_HEIGHT)
 
-  GRID_PALETTE = {
-    # Grayscale colors.
-    0: RGBToColorValue(screen, 0x00, 0x00, 0x00),
-    1: RGBToColorValue(screen, 0x80, 0x80, 0x80),
-    2: RGBToColorValue(screen, 0xc0, 0xc0, 0xc0),
-    3: RGBToColorValue(screen, 0xff, 0xff, 0xff),
-
-    # Full RGB colors.
-    4: RGBToColorValue(screen, 0xff, 0x00, 0x00),
-    5: RGBToColorValue(screen, 0x00, 0xff, 0x00),
-    6: RGBToColorValue(screen, 0x00, 0x00, 0xff),
-    7: RGBToColorValue(screen, 0xff, 0xff, 0x00),
-    8: RGBToColorValue(screen, 0x00, 0xff, 0xff),
-    9: RGBToColorValue(screen, 0xff, 0x00, 0xff),
-
-    # Half RGB colors.
-    10: RGBToColorValue(screen, 0x80, 0x00, 0x00),
-    11: RGBToColorValue(screen, 0x00, 0x80, 0x00),
-    12: RGBToColorValue(screen, 0x00, 0x00, 0x80),
-    13: RGBToColorValue(screen, 0x80, 0x80, 0x00),
-    14: RGBToColorValue(screen, 0x00, 0x80, 0x80),
-    15: RGBToColorValue(screen, 0x80, 0x00, 0x80),
-  }
+  GRID_PALETTE = palette.GetPalette()
   grid_renderer = grid.GridRenderer(BLOCK_WIDTH, BLOCK_HEIGHT, GRID_PALETTE)
 
   # Draw the grid.

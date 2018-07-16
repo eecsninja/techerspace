@@ -1,5 +1,7 @@
 from sdl2 import *
 
+from common.color import *
+
 class Grid:
   def __init__(self, width, height):
     self.width = width
@@ -20,7 +22,7 @@ class GridRenderer:
   def __init__(self, block_width, block_height, palette):
     self.block_width = block_width  # integer
     self.block_height = block_height  # integer
-    self.palette = palette  # integer array
+    self.palette = palette  # SDL_Color array
 
 
   def DrawToSurface(self, grid, surface):
@@ -34,4 +36,5 @@ class GridRenderer:
       rect.y = y * self.block_height
       for x in xrange(grid.width):
         rect.x = x * self.block_width
-        SDL_FillRect(surface, rect, self.palette[grid.GetValue(x, y)])
+        color = self.palette[grid.GetValue(x, y)]
+        SDL_FillRect(surface, rect, SDLColorToColorValue(surface, color))
