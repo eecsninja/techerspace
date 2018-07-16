@@ -19,6 +19,9 @@ GRID_HEIGHT = 20
 # Dimensions of each block in pixels.
 BLOCK_WIDTH = 32
 BLOCK_HEIGHT = 32
+# Each new piece spawns here.
+PIECE_SPAWN_X = 4
+PIECE_SPAWN_Y = 0
 # Location of next piece display.
 NEXT_PIECE_X = BLOCK_WIDTH * (GRID_WIDTH + 2)
 NEXT_PIECE_Y = BLOCK_HEIGHT * 4
@@ -42,11 +45,11 @@ def main():
   # Counter for automated falling.
   fall_counter = 0
 
-  # For testing.
+  # Spawn location.
   piece_x = 0
   piece_y = 0
 
-  current_piece = piece.GetRandomPiece()
+  current_piece = None
   next_piece = piece.GetRandomPiece()
   # For rendering a piece onto a surface.
   piece_sprite = SDL_CreateRGBSurface(0, BLOCK_WIDTH * 4, BLOCK_HEIGHT * 4, 32,
@@ -61,6 +64,14 @@ def main():
   running = True
   event = SDL_Event()
   while running:
+    # To avoid duplicate logic, spawn a new piece from the next piece, and
+    # create the next piece.
+    if not current_piece:
+      current_piece = next_piece
+      next_piece = piece.GetRandomPiece()
+      piece_x = PIECE_SPAWN_X
+      piece_y = PIECE_SPAWN_Y
+
     # Handle user input.
     while SDL_PollEvent(ctypes.byref(event)) != 0:
       if event.type == SDL_QUIT:
@@ -94,6 +105,7 @@ def main():
       print "Border collision"
 
     # Draw current piece.
+    SDL_FillRect(piece_sprite, None, 0)
     grid_renderer.DrawToSurface(current_piece.grid, piece_sprite)
     piece_dest.x = piece_x * BLOCK_WIDTH
     piece_dest.y = piece_y * BLOCK_HEIGHT
